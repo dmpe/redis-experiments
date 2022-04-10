@@ -10,8 +10,6 @@ sudo -E minikube start --driver=none
 # helm upgrade --install redis-operator ./redis-operator \
 #     --install --namespace redis-operator
 
-# helm upgrade --install redis ./redis --namespace redis-operator
-
+helm upgrade --install redis ./lib/helm/redis --namespace redis --create-namespace -f ./lib/helm/redis/values.yaml -f ./lib/helm/redis/my_values.yaml
 
 minikube dashboard
-
