@@ -67,57 +67,8 @@ master:
   disableCommands:
     - FLUSHDB
     - FLUSHALL
-  ## @param master.command Override default container command (useful when using custom images)
-  ##
-  command: []
-  ## @param master.args Override default container args (useful when using custom images)
-  ##
-  args: []
-  ## @param master.preExecCmds Additional commands to run prior to starting Redis&trade; master
-  ##
-  preExecCmds: []
-  ## @param master.extraFlags Array with additional command line flags for Redis&trade; master
-  ## e.g:
-  ## extraFlags:
-  ##  - "--maxmemory-policy volatile-ttl"
-  ##  - "--repl-backlog-size 1024mb"
-  ##
-  extraFlags: []
-  ## @param master.extraEnvVars Array with extra environment variables to add to Redis&trade; master nodes
-  ## e.g:
-  ## extraEnvVars:
-  ##   - name: FOO
-  ##     value: "bar"
-  ##
-  extraEnvVars: []
-  ## @param master.extraEnvVarsCM Name of existing ConfigMap containing extra env vars for Redis&trade; master nodes
-  ##
-  extraEnvVarsCM: ""
-  ## @param master.extraEnvVarsSecret Name of existing Secret containing extra env vars for Redis&trade; master nodes
-  ##
-  extraEnvVarsSecret: ""
-  ## @param master.containerPorts.redis Container port to open on Redis&trade; master nodes
-  ##
   containerPorts:
     redis: 6379
-
-  ## @param master.customStartupProbe Custom startupProbe that overrides the default one
-  ##
-  customStartupProbe: {}
-  ## @param master.customLivenessProbe Custom livenessProbe that overrides the default one
-  ##
-  customLivenessProbe: {}
-  ## @param master.customReadinessProbe Custom readinessProbe that overrides the default one
-  ##
-  customReadinessProbe: {}
-  ## Redis&trade; master resource requests and limits
-  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
-  ## @param master.resources.limits The resources limits for the Redis&trade; master containers
-  ## @param master.resources.requests The requested resources for the Redis&trade; master containers
-  ##
-  resources:
-    limits: {}
-    requests: {}
   ## Configure Pods Security Context
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
   ## @param master.podSecurityContext.enabled Enabled Redis&trade; master pods' Security Context
@@ -138,76 +89,6 @@ master:
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
   ##
   kind: StatefulSet
-  ## @param master.schedulerName Alternate scheduler for Redis&trade; master pods
-  ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
-  ##
-  schedulerName: ""
-  ## @param master.updateStrategy.type Redis&trade; master statefulset strategy type
-  ## @skip master.updateStrategy.rollingUpdate
-  ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
-  ##
-  updateStrategy:
-    ## StrategyType
-    ## Can be set to RollingUpdate or OnDelete
-    ##
-    type: RollingUpdate
-    rollingUpdate: {}
-  ## @param master.priorityClassName Redis&trade; master pods' priorityClassName
-  ##
-  priorityClassName: ""
-  ## @param master.hostAliases Redis&trade; master pods host aliases
-  ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
-  ##
-  hostAliases: []
-  ## @param master.podLabels Extra labels for Redis&trade; master pods
-  ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
-  ##
-  podLabels: {}
-  ## @param master.podAnnotations Annotations for Redis&trade; master pods
-  ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
-  ##
-  podAnnotations: {}
-  ## @param master.shareProcessNamespace Share a single process namespace between all of the containers in Redis&trade; master pods
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/
-  ##
-  shareProcessNamespace: false
-  ## @param master.podAffinityPreset Pod affinity preset. Ignored if `master.affinity` is set. Allowed values: `soft` or `hard`
-  ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
-  ##
-  dnsConfig: {}
-  ## @param master.lifecycleHooks for the Redis&trade; master container(s) to automate configuration before or after startup
-  ##
-  lifecycleHooks: {}
-  ## @param master.extraVolumes Optionally specify extra list of additional volumes for the Redis&trade; master pod(s)
-  ##
-  extraVolumes: []
-  ## @param master.extraVolumeMounts Optionally specify extra list of additional volumeMounts for the Redis&trade; master container(s)
-  ##
-  extraVolumeMounts: []
-  ## @param master.sidecars Add additional sidecar containers to the Redis&trade; master pod(s)
-  ## e.g:
-  ## sidecars:
-  ##   - name: your-image-name
-  ##     image: your-image
-  ##     imagePullPolicy: Always
-  ##     ports:
-  ##       - name: portname
-  ##         containerPort: 1234
-  ##
-  sidecars: []
-  ## @param master.initContainers Add additional init containers to the Redis&trade; master pod(s)
-  ## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
-  ## e.g:
-  ## initContainers:
-  ##  - name: your-image-name
-  ##    image: your-image
-  ##    imagePullPolicy: Always
-  ##    command: ['sh', '-c', 'echo "hello world"']
-  ##
-  initContainers: []
-  ## Persistence parameters
-  ## ref: https://kubernetes.io/docs/user-guide/persistent-volumes/
-  ##
   persistence:
     ## @param master.persistence.enabled Enable persistence on Redis&trade; master nodes using Persistent Volume Claims
     ##
@@ -300,44 +181,6 @@ master:
   ##
   terminationGracePeriodSeconds: 30
 
-
-## RBAC configuration
-##
-rbac:
-  ## @param rbac.create Specifies whether RBAC resources should be created
-  ##
-  create: false
-  ## @param rbac.rules Custom RBAC rules to set
-  ## e.g:
-  ## rules:
-  ##   - apiGroups:
-  ##       - ""
-  ##     resources:
-  ##       - pods
-  ##     verbs:
-  ##       - get
-  ##       - list
-  ##
-  rules: []
-## ServiceAccount configuration
-##
-serviceAccount:
-  ## @param serviceAccount.create Specifies whether a ServiceAccount should be created
-  ##
-  create: true
-  ## @param serviceAccount.name The name of the ServiceAccount to use.
-  ## If not set and create is true, a name is generated using the common.names.fullname template
-  ##
-  name: ""
-  ## @param serviceAccount.automountServiceAccountToken Whether to auto mount the service account token
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#use-the-default-service-account-to-access-the-api-server
-  ##
-  automountServiceAccountToken: true
-  ## @param serviceAccount.annotations Additional custom annotations for the ServiceAccount
-  ##
-  annotations: {}
-
-##
 tls:
   ## @param tls.enabled Enable TLS traffic
   ##
@@ -450,11 +293,3 @@ sysctl:
   ## @param sysctl.mountHostSys Mount the host `/sys` folder to `/host-sys`
   ##
   mountHostSys: false
-  ## Init container's resource requests and limits
-  ## ref: https://kubernetes.io/docs/user-guide/compute-resources/
-  ## @param sysctl.resources.limits The resources limits for the init container
-  ## @param sysctl.resources.requests The requested resources for the init container
-  ##
-  resources:
-    limits: {}
-    requests: {}
